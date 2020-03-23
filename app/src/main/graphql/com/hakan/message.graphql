@@ -1,0 +1,18 @@
+query getMessage($id :String!){
+    getMessages(filter: $id) {
+        body
+    }
+}
+
+mutation createMessage($body :String!) {
+    createMessage(body: $body) {
+        body
+    }
+}
+
+subscription onAddMessage {
+    addMessage {
+        id
+        body
+    }
+}
