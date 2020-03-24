@@ -1,7 +1,10 @@
 package com.hakan.naber
 
 import android.app.Application
+import android.content.Context
 import com.apollographql.apollo.ApolloClient
+import com.hakan.naber.data.ApolloService
+import com.hakan.naber.data.NaberDataSource
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -31,5 +34,9 @@ class App : Application() {
 
     fun getDataSource(): NaberDataSource {
         return ApolloService(apolloClient)
+    }
+
+    fun get(): Context? {
+        return applicationContext
     }
 }

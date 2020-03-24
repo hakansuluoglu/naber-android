@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.hakan.naber;
+package com.hakan.naber.presentation;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;

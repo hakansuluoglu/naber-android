@@ -1,24 +1,22 @@
 query getAllMessages{
     getAllMessages {
-        ...MessageFragment
+        ...Message
     }
 }
 
-fragment MessageFragment on Message {
-    id
-    body
-}
-
-
 mutation createMessage($body :String!) {
     createMessage(body: $body) {
-        ...MessageFragment
+        ...Message
     }
 }
 
 subscription onAddMessage {
     addMessage {
-        id
-        body
+        ...Message
     }
+}
+
+fragment Message on Message {
+    id
+    body
 }
