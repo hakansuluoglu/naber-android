@@ -1,12 +1,18 @@
-query getMessage($id :String!){
-    getMessages(filter: $id) {
-        body
+query getAllMessages{
+    getAllMessages {
+        ...MessageFragment
     }
 }
 
+fragment MessageFragment on Message {
+    id
+    body
+}
+
+
 mutation createMessage($body :String!) {
     createMessage(body: $body) {
-        body
+        ...MessageFragment
     }
 }
 
