@@ -21,6 +21,7 @@ class MainViewModel constructor(private val dataSource: NaberDataSource)
 
     fun getMessageList() = flow {
         emit(dataSource.getMessages())
+
     }.onStart{
         mutableMessageLiveData.value = Resource.loading(emptyList())
     }.catch{
