@@ -10,7 +10,7 @@ import com.hakan.fragment.Message
 import com.hakan.naber.App
 import com.hakan.naber.R
 import com.hakan.naber.data.NaberDataSource
-import com.hakan.naber.presentation.Resource
+import com.hakan.naber.domain.Resource
 
 class MainActivity : AppCompatActivity() {
 
