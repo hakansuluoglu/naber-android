@@ -1,22 +1,22 @@
 query getAllMessages{
     getAllMessages {
-        ...Message
+        ...MessageFragment
     }
 }
 
-mutation createMessage($body :String!) {
-    createMessage(body: $body) {
-        ...Message
+mutation createMessage($id :String!,$body :String!) {
+    createMessage(body: $body, id :$id) {
+        ...MessageFragment
     }
 }
 
 subscription onAddMessage {
     addMessage {
-        ...Message
+        ...MessageFragment
     }
 }
 
-fragment Message on Message {
+fragment MessageFragment on Message {
     id
     body
 }

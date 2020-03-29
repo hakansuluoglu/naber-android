@@ -1,26 +1,23 @@
-package com.hakan.naber.data
+package com.hakan.naber.data.network
 
 import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.toDeferred
 import com.hakan.GetAllMessagesQuery
-import com.hakan.fragment.Message
+import com.hakan.fragment.MessageFragment
+import com.hakan.naber.data.NaberDataSource
 import com.hakan.naber.domain.Resource
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class ApolloService(
     apolloClient: ApolloClient
 ) :  NaberDataSource(apolloClient){
 
-    override suspend fun getMessages() : List<Message> {
+    override suspend fun getMessages() : List<MessageFragment> {
         val getAllMessagesQuery = GetAllMessagesQuery.builder().build()
         return mapRepositoriesResponseToRepositories(response = apolloClient.query(getAllMessagesQuery).toDeferred().await().data())
     }
 
-    override fun createMessage(body: String): MutableLiveData<Resource<Message>> {
+    override fun createMessage(body: String): MutableLiveData<Resource<MessageFragment>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
     /*

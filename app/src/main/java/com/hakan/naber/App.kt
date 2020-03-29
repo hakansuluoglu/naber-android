@@ -3,8 +3,9 @@ package com.hakan.naber
 import android.app.Application
 import android.content.Context
 import com.apollographql.apollo.ApolloClient
-import com.hakan.naber.data.ApolloService
+import com.hakan.naber.data.network.ApolloService
 import com.hakan.naber.data.NaberDataSource
+import com.jakewharton.threetenabp.AndroidThreeTen
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -30,6 +31,12 @@ class App : Application() {
             .serverUrl(baseUrl)
             .okHttpClient(okHttpClient)
             .build()
+
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        AndroidThreeTen.init(this)
     }
 
     fun getDataSource(): NaberDataSource {

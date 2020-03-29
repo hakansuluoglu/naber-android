@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.hakan.fragment.Message
+import com.hakan.fragment.MessageFragment
 import com.hakan.naber.App
 import com.hakan.naber.R
 import com.hakan.naber.data.NaberDataSource
@@ -15,7 +15,7 @@ import com.hakan.naber.domain.Resource
 class MainActivity : AppCompatActivity() {
 
     private  var viewModel: MainViewModel? = null
-    private val observer = Observer<Resource<List<Message>>> { handleResponse(it) }
+    private val observer = Observer<Resource<List<MessageFragment>>> { handleResponse(it) }
 
     private val dataSource: NaberDataSource by lazy {
         (application as App).getDataSource()
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         viewModel!!.getMessageList()
      }
 
-    private fun handleResponse(it: Resource<List<Message>>) {
+    private fun handleResponse(it: Resource<List<MessageFragment>>) {
         when (it.status) {
             Resource.LOADING -> {
                 Log.d("MainActivity", "--> Loading...")
