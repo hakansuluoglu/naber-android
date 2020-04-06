@@ -2,10 +2,11 @@ package com.hakan.naber.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.hakan.naber.data.NaberDataSource
+import com.hakan.naber.data.local.db.NaberDatabase
+import com.hakan.naber.data.network.NetworkDataSource
 
-class MainViewModelFactory(val naberDataSource: NaberDataSource) : ViewModelProvider.Factory {
+class MainViewModelFactory(private val networkDataSource: NetworkDataSource, private val naberDatabase: NaberDatabase) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MainViewModel(naberDataSource) as T
+        return MainViewModel(networkDataSource,naberDatabase) as T
     }
 }

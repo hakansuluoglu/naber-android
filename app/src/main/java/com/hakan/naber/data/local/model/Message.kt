@@ -12,7 +12,9 @@ data class Message (
 
     val body: String,
 
-    val created_at: OffsetDateTime? = null,
+    val created_at: OffsetDateTime?,
 
-    val updated_at: OffsetDateTime? = null
+    val  updated_at: OffsetDateTime? = null
+
+
 )

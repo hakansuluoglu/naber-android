@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
-object TypeConverters {
+object Converter {
     private val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
     @TypeConverter

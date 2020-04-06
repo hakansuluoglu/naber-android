@@ -6,30 +6,39 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.hakan.fragment.MessageFragment
 import com.hakan.naber.App
 import com.hakan.naber.R
-import com.hakan.naber.data.NaberDataSource
+import com.hakan.naber.data.local.db.NaberDatabase
+import com.hakan.naber.data.local.model.Message
+import com.hakan.naber.data.network.NetworkDataSource
 import com.hakan.naber.domain.Resource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class MainActivity : AppCompatActivity() {
 
     private  var viewModel: MainViewModel? = null
-    private val observer = Observer<Resource<List<MessageFragment>>> { handleResponse(it) }
+    private val observer = Observer<Resource<List<Message>>> { handleResponse(it) }
 
-    private val dataSource: NaberDataSource by lazy {
+    private val networkDataSource: NetworkDataSource by lazy {
         (application as App).getDataSource()
     }
 
+    private val localDataSource: NaberDatabase by lazy {
+        NaberDatabase(this)
+    }
+
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel = ViewModelProvider(this,MainViewModelFactory(dataSource)).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this,MainViewModelFactory(networkDataSource,localDataSource)).get(MainViewModel::class.java)
         viewModel?.weatherLiveData?.observe(this, observer)
         viewModel!!.getMessageList()
+
+        networkDataSource.subscribeOnCreateMessage()
      }
 
-    private fun handleResponse(it: Resource<List<MessageFragment>>) {
+    private fun handleResponse(it: Resource<List<Message>>) {
         when (it.status) {
             Resource.LOADING -> {
                 Log.d("MainActivity", "--> Loading...")

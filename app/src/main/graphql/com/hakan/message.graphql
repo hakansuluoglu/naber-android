@@ -12,11 +12,14 @@ mutation createMessage($id :String!,$body :String!) {
 
 subscription onAddMessage {
     addMessage {
-        ...MessageFragment
+        id
+        body
+        createdAt
     }
 }
 
 fragment MessageFragment on Message {
     id
     body
+    createdAt
 }
