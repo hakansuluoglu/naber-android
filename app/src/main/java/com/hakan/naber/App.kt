@@ -33,10 +33,4 @@ class App : Application() {
         return applicationContext
     }
 
-    object HeadersProvider {
-        val HEADERS = mapOf(
-            "x-api-key" to "da2-b2elrhpxsbfvvanxz32chue374"
-        )
-    }
-
 }
