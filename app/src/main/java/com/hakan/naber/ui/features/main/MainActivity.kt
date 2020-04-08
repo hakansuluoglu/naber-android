@@ -1,41 +1,45 @@
-package com.hakan.naber.presentation.main
+package com.hakan.naber.ui.features.main
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.hakan.naber.App
 import com.hakan.naber.R
-import com.hakan.naber.data.local.db.NaberDatabase
+import com.hakan.naber.app.BaseActivity
 import com.hakan.naber.data.local.model.Message
-import com.hakan.naber.data.network.NetworkDataSource
 import com.hakan.naber.domain.Resource
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+@ExperimentalCoroutinesApi
+@InternalCoroutinesApi
+class MainActivity : BaseActivity(){
 
-    private  var viewModel: MainViewModel? = null
+    @Inject
+    lateinit  var viewModel: MainViewModel
+
+    @Inject
+    lateinit var vmFactoryMain: MainViewModelFactory
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
     private val observer = Observer<Resource<List<Message>>> { handleResponse(it) }
 
-    private val networkDataSource: NetworkDataSource by lazy {
-        (application as App).getDataSource()
-    }
+    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
-    private val localDataSource: NaberDatabase by lazy {
-        NaberDatabase(this)
-    }
+    override fun getLayout(): Int = R.layout.activity_main
 
-    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel = ViewModelProvider(this,MainViewModelFactory(networkDataSource,localDataSource)).get(MainViewModel::class.java)
-        viewModel?.weatherLiveData?.observe(this, observer)
-        viewModel!!.getMessageList()
-
-        networkDataSource.subscribeOnCreateMessage()
+        viewModel = ViewModelProvider(this, vmFactoryMain).get(MainViewModel::class.java)
+        viewModel.messageLiveData.observe(this, observer)
+        viewModel.getMessageList()
      }
 
     private fun handleResponse(it: Resource<List<Message>>) {
@@ -52,6 +56,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
 }
