@@ -1,25 +1,24 @@
-package com.hakan.naber.app.di
+package com.hakan.naber.app.di.component
 
 import com.hakan.naber.App
-import com.hakan.naber.app.di.module.*
+import com.hakan.naber.app.di.module.ActivityModule
+import com.hakan.naber.app.di.module.AppModule
+import com.hakan.naber.app.di.module.RoomModule
+import com.hakan.naber.app.di.module.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Singleton
 
 @ExperimentalCoroutinesApi
-@InternalCoroutinesApi
 @Singleton
 @Component(
     modules = [
         AppModule::class,
-        AppSyncModule::class,
-        RoomModule::class,
-        RepositoryModule::class,
-        ViewModelModule::class,
         ActivityModule::class,
+        RoomModule::class,
+        ViewModelModule::class,
         AndroidSupportInjectionModule::class]
 )
 interface AppComponent {

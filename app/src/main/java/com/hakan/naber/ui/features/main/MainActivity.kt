@@ -6,31 +6,23 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hakan.naber.R
-import com.hakan.naber.app.BaseActivity
 import com.hakan.naber.data.local.model.Message
 import com.hakan.naber.domain.Resource
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
+import com.hakan.naber.ui.base.BaseActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
+
 @ExperimentalCoroutinesApi
-@InternalCoroutinesApi
-class MainActivity : BaseActivity(){
+class MainActivity : BaseActivity() {
 
     @Inject
-    lateinit  var viewModel: MainViewModel
+    lateinit var viewModel: MainViewModel
 
     @Inject
     lateinit var vmFactoryMain: MainViewModelFactory
 
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
     private val observer = Observer<Resource<List<Message>>> { handleResponse(it) }
-
-    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
     override fun getLayout(): Int = R.layout.activity_main
 

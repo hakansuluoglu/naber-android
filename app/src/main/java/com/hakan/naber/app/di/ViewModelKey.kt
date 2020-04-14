@@ -4,9 +4,6 @@ import androidx.lifecycle.ViewModel
 import dagger.MapKey
 import kotlin.reflect.KClass
 
-/**
- *  Created by beyazid on 10/02/2020.
- */
 @MustBeDocumented
 @Target(
     AnnotationTarget.FUNCTION,

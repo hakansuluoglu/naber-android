@@ -7,14 +7,12 @@ import com.hakan.naber.data.local.model.Message
 import com.hakan.naber.domain.Repository
 import com.hakan.naber.domain.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 class MainViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 

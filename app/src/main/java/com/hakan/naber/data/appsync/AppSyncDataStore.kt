@@ -8,18 +8,17 @@ import com.hakan.OnAddMessageSubscription
 import com.hakan.naber.data.local.model.Message
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import timber.log.Timber
 import javax.inject.Inject
 
 class AppSyncDataStore @Inject constructor(private val appSyncClient: AWSAppSyncClient){
 
       @ExperimentalCoroutinesApi
-      @InternalCoroutinesApi
-      fun onCreateMessage() : Flow<Message> = callbackFlow{
+      fun onCreateMessage() : Flow<Result<Message>> = callbackFlow {
         val onAddMessageSubscription = OnAddMessageSubscription.builder().build()
         val callback =  object : AppSyncSubscriptionCall.Callback<OnAddMessageSubscription.Data> {
               override fun onFailure(e: ApolloException) {
@@ -27,13 +26,20 @@ class AppSyncDataStore @Inject constructor(private val appSyncClient: AWSAppSync
               }
 
               override fun onResponse(response: Response<OnAddMessageSubscription.Data?>) {
-                  sendBlocking(mapCreateMessageToMessage(response))
+                  try {
+                    offer(Result.success(mapCreateMessageToMessage(response)))
+                  } catch (exp: Exception) {
+                      Timber.e(exp)
+                      if (!isClosedForSend) offer(Result.failure(exp))
+                  }
               }
 
               override fun onCompleted() {
-                  channel.close()
+                  Timber.d("egg")
               }
           }
           appSyncClient.subscribe(onAddMessageSubscription).execute(callback)
+
+          awaitClose { callback.onCompleted() }
       }
 }
